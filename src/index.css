@@ -1,15 +1,79 @@
 body {
   font-family: Arial, sans-serif;
+  background-color: #f0f4f8;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 10px;
+}
+
+h1 {
+  text-align: center;
+  color: #111827;
+}
+
+.card {
+  background-color: #fff;
   padding: 20px;
-  background-color: #f8f8f8;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card h2 {
+  margin-top: 0;
+  color: #1f2937;
 }
 
 input, select, button {
-  margin: 5px;
-  padding: 5px;
+  margin: 5px 5px 10px 0;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
 }
 
-pre {
-  background-color: #eee;
+button {
+  background-color: #3b82f6;
+  color: white;
+  cursor: pointer;
+  border: none;
+}
+
+button:hover {
+  background-color: #2563eb;
+}
+
+.result {
+  background-color: #e0f2fe;
   padding: 10px;
+  border-radius: 6px;
+  margin-top: 10px;
+}
+
+.todo-list {
+  margin-top: 10px;
+}
+
+.todo-item {
+  background-color: #fef3c7;
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin-bottom: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.todo-actions button {
+  margin-left: 6px;
+  padding: 4px 8px;
+  background-color: #f97316;
+}
+
+.todo-actions button:hover {
+  background-color: #ea580c;
 }
