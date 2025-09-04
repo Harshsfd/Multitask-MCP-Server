@@ -1,25 +1,37 @@
 import React, { useState } from "react";
 import { api } from "../api";
 
-export default function TextAnalyzer() {
+function TextAnalyzer() {
   const [path, setPath] = useState("");
-  const [result, setResult] = useState(null);
+  const [analysis, setAnalysis] = useState(null);
 
   const handleAnalyze = async () => {
     try {
       const res = await api.get("/analyze_text", { params: { path } });
-      setResult(res.data);
+      setAnalysis(res.data.error ? null : res.data);
     } catch (err) {
-      setResult({ error: "Network Error" });
+      setAnalysis(null);
     }
   };
 
   return (
-    <div>
+    <div className="card">
       <h2>Text Analyzer</h2>
-      <input type="text" value={path} onChange={e => setPath(e.target.value)} placeholder="File path" />
+      <input type="text" value={path} onChange={(e) => setPath(e.target.value)} placeholder="File path" />
       <button onClick={handleAnalyze}>Analyze</button>
-      {result && <pre>{JSON.stringify(result, null, 2)}</pre>}
+      {analysis && (
+        <div className="result">
+          <p>Lines: {analysis.lines}</p>
+          <p>Words: {analysis.words}</p>
+          <p>Characters: {analysis.characters}</p>
+          <p>
+            Most Common Words:{" "}
+            {analysis.most_common_words.map(([word, count]) => `${word}(${count})`).join(", ")}
+          </p>
+        </div>
+      )}
     </div>
   );
 }
+
+export default TextAnalyzer;
