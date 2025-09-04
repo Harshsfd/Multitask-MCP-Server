@@ -3,17 +3,15 @@ import Calculator from "./components/Calculator";
 import FileReader from "./components/FileReader";
 import TextAnalyzer from "./components/TextAnalyzer";
 import TodoManager from "./components/TodoManager";
+import "./index.css";
 
 function App() {
   return (
-    <div style={{ padding: "20px" }}>
+    <div className="container">
       <h1>MCP Tools</h1>
       <Calculator />
-      <hr />
       <FileReader />
-      <hr />
       <TextAnalyzer />
-      <hr />
       <TodoManager />
     </div>
   );
