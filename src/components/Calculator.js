@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { api } from "../api";
 
 export default function Calculator() {
@@ -10,9 +10,9 @@ export default function Calculator() {
   const handleCalculate = async () => {
     try {
       const res = await api.get("/calculate", { params: { a, b, op } });
-      setResult(res.data.result ?? res.data.error);
+      setResult(res.data);
     } catch (err) {
-      setResult("Error calling API");
+      setResult({ error: "Network Error" });
     }
   };
 
@@ -28,7 +28,7 @@ export default function Calculator() {
         <option value="div">Divide</option>
       </select>
       <button onClick={handleCalculate}>Calculate</button>
-      {result !== null && <p>Result: {result}</p>}
+      {result && <pre>Result: {JSON.stringify(result, null, 2)}</pre>}
     </div>
   );
 }
