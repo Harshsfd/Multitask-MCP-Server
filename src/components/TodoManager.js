@@ -1,77 +1,73 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import { api } from "../api";
 
-const BASE_URL = "http://127.0.0.1:8000";
-
-function TodoManager() {
+export default function TodoManager() {
   const [tasks, setTasks] = useState([]);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [editId, setEditId] = useState(null);
+  const [editTitle, setEditTitle] = useState("");
+  const [editDesc, setEditDesc] = useState("");
+  const [editDone, setEditDone] = useState(false);
 
-  // Fetch all tasks
   const fetchTasks = async () => {
-    try {
-      const res = await axios.get(`${BASE_URL}/todos`);
-      setTasks(res.data);
-    } catch (err) {
-      console.error(err);
-    }
+    const res = await api.get("/todos");
+    setTasks(res.data);
   };
 
   useEffect(() => {
     fetchTasks();
   }, []);
 
-  // Create Task
-  const createTask = async () => {
-    try {
-      await axios.post(`${BASE_URL}/todos/create`, null, { params: { title, description } });
-      setTitle(""); setDescription("");
-      fetchTasks(); // <-- refresh list after create
-    } catch (err) { console.error(err); }
+  const handleCreate = async () => {
+    await api.post("/todos/create", null, { params: { title, description } });
+    setTitle(""); setDescription("");
+    fetchTasks();
   };
 
-  // Update Task
-  const updateTask = async (id) => {
-    try {
-      await axios.put(`${BASE_URL}/todos/${id}`, null, { params: { title, description } });
-      setTitle(""); setDescription(""); setEditId(null);
-      fetchTasks(); // <-- refresh list after update
-    } catch (err) { console.error(err); }
+  const handleUpdate = async (id) => {
+    await api.put(`/todos/${id}`, null, { params: { title: editTitle, description: editDesc, done: editDone } });
+    setEditId(null); fetchTasks();
   };
 
-  // Delete Task
-  const deleteTask = async (id) => {
-    try {
-      await axios.delete(`${BASE_URL}/todos/${id}`);
-      fetchTasks(); // <-- refresh list after delete
-    } catch (err) { console.error(err); }
+  const handleDelete = async (id) => {
+    if (window.confirm(`Delete task ${id}?`)) {
+      await api.delete(`/todos/${id}`);
+      fetchTasks();
+    }
   };
 
   return (
     <div>
       <h2>Todo Manager</h2>
-      <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Title" />
-      <input value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Description" />
-      {editId ? 
-        <button onClick={() => updateTask(editId)}>Update Task</button> :
-        <button onClick={createTask}>Create Task</button>
-      }
+      <h3>Create Task</h3>
+      <input value={title} onChange={e => setTitle(e.target.value)} placeholder="Title" />
+      <input value={description} onChange={e => setDescription(e.target.value)} placeholder="Description" />
+      <button onClick={handleCreate}>Create</button>
 
-      <ul>
-  {tasks.map(task => (
-    <li key={task.id}>
-      {task.title} - {task.description}   {/* <- Status fix */}
-      <button onClick={() => { setEditId(task.id); setTitle(task.title); setDescription(task.description); }}>Edit</button>
-      {}<button onClick={() => deleteTask(task.id)}>Delete</button> {}
-      {task.done ? "Done ✅" : "Pending ⏳"}
-    </li>
-  ))}
-</ul>
-
+      <h3>All Tasks</h3>
+      {tasks.map(t => (
+        <div key={t.id} style={{ border: "1px solid #ccc", margin: "5px", padding: "5px" }}>
+          <p>ID: {t.id} | Title: {t.title} | Desc: {t.description} | Done: {t.done.toString()}</p>
+          {editId === t.id ? (
+            <div>
+              <input value={editTitle} onChange={e => setEditTitle(e.target.value)} placeholder="Title" />
+              <input value={editDesc} onChange={e => setEditDesc(e.target.value)} placeholder="Description" />
+              <label>
+                Done:
+                <input type="checkbox" checked={editDone} onChange={e => setEditDone(e.target.checked)} />
+              </label>
+              <button onClick={() => handleUpdate(t.id)}>Save</button>
+              <button onClick={() => setEditId(null)}>Cancel</button>
+            </div>
+          ) : (
+            <div>
+              <button onClick={() => { setEditId(t.id); setEditTitle(t.title); setEditDesc(t.description); setEditDone(t.done); }}>Edit</button>
+              <button onClick={() => handleDelete(t.id)}>Delete</button>
+            </div>
+          )}
+        </div>
+      ))}
     </div>
   );
 }
-
-export default TodoManager;
