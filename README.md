@@ -213,4 +213,4 @@ REACT_APP_API_BASE_URL=https://your-backend.example.com
 
 ---
 
-<p align="center">Made with ❤️ by <b>Your Dev Team</b> — live demo at <a href="https://multitask-mcp-server.vercel.app">multitask-mcp-server.vercel.app</a></p>
+<p align="center">Made with ❤️ by </b>Harsh Bhardwaj</b>
