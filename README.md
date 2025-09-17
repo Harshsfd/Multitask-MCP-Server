@@ -1,71 +1,226 @@
-# Getting Started with Create React App
+<!-- Top banner / logo -->
+<p align="center">⚙️
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+<h1 align="center">MultiTask — MCP Frontend</h1>
 
-## Available Scripts
+<p align="center">
+  A compact, utility-first React SPA (Calculator, File Reader, Text Analyzer, Todo Manager) that communicates with an MCP-style backend.
+</p>
 
-In the project directory, you can run:
+<p align="center">
+  <a href="https://multitask-mcp-server.vercel.app" target="_blank">🌐 Live Demo</a> ·
+  <a href="#features">✨ Features</a> ·
+  <a href="#project-structure">📂 Project Structure</a> ·
+  <a href="#getting-started">⚡ Getting Started</a> ·
+  <a href="#deep-analysis--security-notes">🔐 Analysis & Security</a>
+</p>
 
-### `npm start`
+<p align="center">
+  <img src="https://img.shields.io/badge/status-live-brightgreen?style=for-the-badge" alt="live" />
+  <img src="https://img.shields.io/badge/frontend-react-blue?style=for-the-badge&logo=react" alt="react" />
+  <img src="https://img.shields.io/badge/deployed-vercel-black?style=for-the-badge&logo=vercel" alt="vercel" />
+</p>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## ✨ Features
 
-### `npm test`
+- 🧮 **Calculator** — basic arithmetic via backend compute endpoint.  
+- 📄 **File Reader** — request file contents from server for review (use carefully).  
+- 🧾 **Text Analyzer** — analyze text file: lines, words, most common words.  
+- ✅ **Todo Manager** — list/add/edit/delete tasks via backend.  
+- ⚡ Fast single-page app using Create React App + Axios.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## 🛠 Tech Stack
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+<p align="center">
+  <img src="https://skillicons.dev/icons?i=react,axios,nodejs,js" alt="tech" />
+</p>
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- **Frontend:** React (Create React App), React 19, Axios  
+- **Styling:** Custom CSS (index.css / App.css)  
+- **Build / Deploy:** CRA (`npm start`, `npm run build`), Vercel-friendly  
+- **Backend (expected):** REST endpoints (see *API Endpoints* below)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+---
 
-### `npm run eject`
+## 📂 Project Structure
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+MultiTask/
+├── public/
+│   ├── index.html
+│   ├── logo192.png
+│   └── ...
+├── src/
+│   ├── components/
+│   │   ├── Calculator.js
+│   │   ├── FileReader.js
+│   │   ├── TextAnalyzer.js
+│   │   └── TodoManager.js
+│   ├── api.js               # axios instance + BASE\_URL
+│   ├── App.js
+│   ├── index.js
+│   └── index.css
+├── package.json
+└── README.md
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+````
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+---
 
-## Learn More
+## 📡 API Endpoints (observed / expected)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+> The frontend calls these endpoints on the configured `BASE_URL`:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- `GET /calculate?a=&b=&op=`  
+  - Returns `{ result: number }` or `{ error: string }`.
 
-### Code Splitting
+- `GET /read_file?path=`  
+  - Returns `{ content: "file contents..." }` or `{ error: string }`.
+  - **Warning:** If server accepts arbitrary paths → **file disclosure risk**.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- `GET /analyze_text?path=`  
+  - Returns text statistics: `{ lines, words, characters, most_common_words }`.
 
-### Analyzing the Bundle Size
+- `GET /todos`  
+  - Plus `/todos` POST/PUT/DELETE depending on backend.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+---
 
-### Making a Progressive Web App
+## ⚡ Getting Started (Developer)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+> Uses Create React App. Node 16+ recommended.
 
-### Advanced Configuration
+```bash
+# 1. Clone
+git clone https://github.com/your-org/your-repo.git
+cd your-repo
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+# 2. Install
+npm install
 
-### Deployment
+# 3. Configure API base (recommended: use env)
+# Option A: Quick edit (development)
+# Edit src/api.js and set BASE_URL to your backend (default: https://mcp-server-qko7.onrender.com)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+# Option B: Use an env variable (recommended)
+# Create a .env file at project root with:
+# REACT_APP_API_BASE_URL=https://your-backend.example.com
+#
+# Then either update src/api.js to use process.env.REACT_APP_API_BASE_URL (see snippet below)
 
-### `npm run build` fails to minify
+# 4. Run locally
+npm start
+# Open http://localhost:3000
+````
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-# Multitask-MCP-Server
+### Recommended change for `src/api.js` (use env var)
+
+Replace the current hard-coded BASE\_URL with:
+
+```js
+// src/api.js
+import axios from "axios";
+
+const BASE_URL = process.env.REACT_APP_API_BASE_URL || "https://mcp-server-qko7.onrender.com";
+export const api = axios.create({ baseURL: BASE_URL });
+```
+
+Create `.env.example`:
+
+```
+# .env.example
+REACT_APP_API_BASE_URL=https://your-backend.example.com
+```
+
+> **Important**: Add `.env` to `.gitignore` and never commit secrets.
+
+---
+
+## 🚀 Deployment
+
+* For **Vercel**: push code to GitHub → import project into Vercel → add `REACT_APP_API_BASE_URL` in Environment Variables → Deploy.
+* For general Node hosts: build with `npm run build` and serve `build/` folder.
+
+---
+
+## 🔍 Deep Analysis & Security Notes (ACTIONABLE)
+
+### Summary of findings
+
+* **Client code** is clean and readable; small utilities are implemented as separate components.
+* `src/api.js` currently uses a **hard-coded backend URL** — move to env variables for flexibility and security.
+* **Major risk:** `FileReader` component posts arbitrary `path` value to `GET /read_file`. If the server does not sanitize/whitelist allowed paths this can lead to:
+
+  * Directory traversal (e.g. `../../etc/passwd`)
+  * Disclosure of secrets and system files
+  * Privacy breaches
+
+### Security & hardening (PRIORITY)
+
+1. **Never allow arbitrary filesystem reads.** Backend must enforce:
+
+   * A **whitelist** of allowed directories or file IDs, OR
+   * Map client file references to internal safe paths (do not accept raw paths).
+2. **Input validation & sanitization** on all endpoints (`/read_file`, `/analyze_text`, `/calculate`, todos endpoints).
+3. **Authentication & Authorization**:
+
+   * Add auth for sensitive endpoints (reading files, editing todos if not public).
+   * Rate-limit endpoints to prevent brute force and data extraction.
+4. **CORS**: restrict `Access-Control-Allow-Origin` to your front-end domain in production.
+5. **Logging & Monitoring**: log suspicious requests (e.g., `..` in `path`) and add alerts.
+6. **Remove hard-coded backend URL** in client — use `REACT_APP_API_BASE_URL` env var as described above.
+7. **HTTPS & CSP**: ensure backend certs are valid and consider CSP in `index.html`.
+
+### Code-quality & developer improvements
+
+* Add `.env.example`, `.gitignore` rules for env files.
+* Add a small `README.dev.md` with backend contract (endpoints + expected JSON shape).
+* Add GitHub Actions CI for `npm ci`, `npm run build`, basic unit tests (Jest).
+* Add end-to-end smoke tests (Playwright) for critical flows.
+
+---
+
+## ✅ Quick mitigation patch suggestions (what to change now)
+
+1. **Change `src/api.js` to use env var** (see snippet in *Getting Started*).
+2. **Temporary UI safety note** — annotate `File Reader` with a warning and disable it in production until backend is hardened. Example UI notice in `FileReader.js`:
+
+```jsx
+// Short UI warning (add near input)
+<p className="small warning">⚠️ This tool can read server files. Make sure the backend restricts allowed paths before using in production.</p>
+```
+
+3. **Backend checklist** (if you control it):
+
+   * Implement path normalization + disallow `..` segments
+   * Only allow a configured base directory: e.g., `/var/app/files` and reject any path outside it
+   * Require an API key or session for the read endpoints
+
+---
+
+## 📌 Final notes & next steps
+
+* This frontend is **lightweight and production-ready** once the backend is validated/secured.
+* If you want, I can:
+
+  * Generate a small patch PR (code snippets) for `src/api.js` + `.env.example` + README update.
+  * Draft a secure backend handler template for `read_file` (node/express) that enforces a base directory whitelist.
+
+---
+
+<p align="center">Made with ❤️ by <b>Your Dev Team</b> — live demo at <a href="https://multitask-mcp-server.vercel.app">multitask-mcp-server.vercel.app</a></p>
+```
+
+---
+
+If you want, I’ll now:
+
+* create the **three small patch files** (1) `src/api.js` env-safe change, (2) `.env.example`, (3) updated `README.md` committed-ready — all in one reply as ready-to-commit file contents; **or**
+* produce a **secure backend `read_file` example** (Express) that enforces path whitelist and returns safe errors.
+
+Which one should I produce now? (I'll include full code — no waiting.)
