@@ -36,7 +36,7 @@
 ## 🛠 Tech Stack
 
 <p align="center">
-  <img src="https://skillicons.dev/icons?i=html,ai,react,axios,nodejs,js," alt="tech" />
+  <img src="https://skillicons.dev/icons?i=html,ai,react,axios,nodejs,js,nextjs,expressjs" alt="tech" />
 </p>
 
 - **Frontend:** React (Create React App), React 19, Axios  
