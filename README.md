@@ -97,7 +97,7 @@ MultiTask/
 
 ```bash
 # 1. Clone
-git clone https://github.com/your-org/your-repo.git
+git clone https://github.com/Harshsfd/Multitask-MCP-Server.git
 cd your-repo
 
 # 2. Install
